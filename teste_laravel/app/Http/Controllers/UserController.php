@@ -2,9 +2,43 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    //
+    public function register(Request $request) {
+        $validateData = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'password' => 'required|string|min:8',
+            'phone' => 'required|string',
+            'cep' => 'required|string',
+            'picture' => 'nullable|string'
+        ]);
+
+        $user = User::create([
+            'name' => $validateData['name'],
+            'email' => $validateData['email'],
+            'password' => Hash::make($validateData['password']),
+            'phone' => $validateData['phone'],
+            'cep' => $validateData['cep'],
+            'picture' => $validateData['picture'],
+        ]);
+
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        return response()->json([
+            'token' => $token,
+            'token_type' => 'Bearer',
+            'user' => $user,
+        ]);
+    }
+
+    public function login() {
+        
+    }
 }
+
