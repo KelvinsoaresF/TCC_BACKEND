@@ -18,8 +18,8 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('phone');
-            $table->string('cep');
-            $table->string('profile_picture')->nullable(); // Adicionado campo para foto de perfil
+            $table->string('cep')->nullable();
+            $table->string('picture')->nullable(); // opcional
             $table->rememberToken();
             $table->timestamps();
         });
