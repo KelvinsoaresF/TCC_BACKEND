@@ -6,6 +6,7 @@
 /storage/*.key
 /storage/pail
 
+composer.lock
 
 .phpactor.json
 .phpunit.result.cache

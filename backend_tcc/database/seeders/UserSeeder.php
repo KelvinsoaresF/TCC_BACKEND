@@ -18,15 +18,14 @@ class UserSeeder extends Seeder
             'name' => 'user1',
             'email' => 'user1@example.com',
             'password' => Hash::make('password123'),
-            'phone' => '12345678',
-            'cep' => '1222222222'
+            'phone' => '19 93456-8978',
+
         ],
         // [
-        //     'name' => 'user1',
-        //     'email' => 'user1@example.com',
+        //     'name' => 'user2',
+        //     'email' => 'user2@example.com',
         //     'password' => Hash::make('password123'),
-        //     'phone' => '12345678',
-        //     'cep' => '1222222222'
+        //     'phone' => '123462980462935',
         // ]
         );
     }
