@@ -8,6 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'App\\Http\\Controllers\\AuthController' => $baseDir . '/app/Http/Controllers/AuthController.php',
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
+    'App\\Http\\Controllers\\ProfileController' => $baseDir . '/app/Http/Controllers/ProfileController.php',
     'App\\Http\\Controllers\\UserController' => $baseDir . '/app/Http/Controllers/UserController.php',
     'App\\Http\\Middleware\\VerifyCsrfToken' => $baseDir . '/app/Http/Middleware/VerifyCsrfToken.php',
     'App\\Models\\User' => $baseDir . '/app/Models/User.php',
@@ -1740,7 +1741,6 @@ return array(
     'Illuminate\\Foundation\\Http\\Events\\RequestHandled' => $vendorDir . '/laravel/framework/src/Illuminate/Foundation/Http/Events/RequestHandled.php',
     'Illuminate\\Foundation\\Http\\FormRequest' => $vendorDir . '/laravel/framework/src/Illuminate/Foundation/Http/FormRequest.php',
     'Illuminate\\Foundation\\Http\\HtmlDumper' => $vendorDir . '/laravel/framework/src/Illuminate/Foundation/Http/HtmlDumper.php',
-    'Illuminate\\Foundation\\Http\\Kernel' => $vendorDir . '/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php',
     'Illuminate\\Foundation\\Http\\MaintenanceModeBypassCookie' => $vendorDir . '/laravel/framework/src/Illuminate/Foundation/Http/MaintenanceModeBypassCookie.php',
     'Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode' => $vendorDir . '/laravel/framework/src/Illuminate/Foundation/Http/Middleware/CheckForMaintenanceMode.php',
     'Illuminate\\Foundation\\Http\\Middleware\\Concerns\\ExcludesPaths' => $vendorDir . '/laravel/framework/src/Illuminate/Foundation/Http/Middleware/Concerns/ExcludesPaths.php',

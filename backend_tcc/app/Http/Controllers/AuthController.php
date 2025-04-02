@@ -48,8 +48,8 @@ class AuthController extends Controller
     {
         try {
             $validateData = $request->validate([
-               'email' => 'required|email',
-               'password' => 'required|string',
+                'email' => 'required|email',
+                'password' => 'required|string',
             ]);
 
             if (!Auth::attempt($validateData)) {
@@ -59,9 +59,32 @@ class AuthController extends Controller
                 ]);
             }
 
-            $user
-        } catch (\Exception $e) {
+            $user = User::where('email', $validateData['email'])->first();
 
+            $token = $user->createToken($user->name)->plainTextToken;
+            return response()->json([
+                'message' => 'Login realizado com sucesso',
+                'token_type' => 'Bearer',
+                'user' => $user,
+                'token' => $token,
+                'status' => 'success'
+            ], 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Erro ao realizar login',
+                'message' => $e->getMessage(),
+            ], 500);
         }
+    }
+
+    public function logout(Request $request)
+    {
+
+        $request->user()->currentAccessToken()->delete();
+        return response()->json([
+            'message' => 'Logout realizado com sucesso',
+            'status' => 'success'
+        ]);
     }
 }

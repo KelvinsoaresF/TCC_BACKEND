@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -24,5 +25,10 @@ Route::get('/test', function() {
     return "Teste de rota postman usando api.php";
 });
 
-
+// rotas de autenticação
 Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+
+// rotas de usuario
+Route::get('/profile', [ProfileController::class, 'show'])->middleware('auth:sanctum');

@@ -24,7 +24,7 @@ class User extends Authenticatable
         'email',
         'password',
         'phone',
-        'cep', // irei remover o cep e adicionar apenas no post
+        // irei remover o cep e adicionar apenas no post
         'endereco',
         'picture'
     ];
