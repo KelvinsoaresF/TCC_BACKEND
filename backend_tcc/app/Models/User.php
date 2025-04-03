@@ -28,7 +28,7 @@ class User extends Authenticatable
         'endereco',
         'picture'
     ];
-
+    // -YOXt!lTSm_Vn1ha
     /**
      * The attributes that should be hidden for serialization.
      *

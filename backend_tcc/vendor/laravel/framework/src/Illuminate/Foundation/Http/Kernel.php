@@ -54,15 +54,7 @@ class Kernel implements KernelContract
      *
      * @var array<int, class-string|string>
      */
-    protected $middleware = [
-        // \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
-        // \Illuminate\Http\Middleware\PreventRequestsFromUntrustedOrigins::class, // Middleware global
-        // \Fruitcake\Cors\HandleCors::class, // Middleware de CORS
-        // \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
-        // \App\Http\Middleware\TrimStrings::class,
-        // \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
-        // \App\Http\Middleware\TrustProxies::class,
-    ];
+    protected $middleware = [];
 
     /**
      * The application's route middleware groups.

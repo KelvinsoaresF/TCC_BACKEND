@@ -31,4 +31,5 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
 // rotas de usuario
-Route::get('/profile', [ProfileController::class, 'show'])->middleware('auth:sanctum');
+// Route::apiResource('/user', ProfileController::class)->middleware('auth:sanctum');
+Route::get('/user', [ProfileController::class, 'show'])->middleware('auth:sanctum');
