@@ -11,7 +11,7 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
         return response()->json([
-            'user' => $user->name,
+            'name' => $user->name,
             'email' => $user->email,
         ]);
     }
