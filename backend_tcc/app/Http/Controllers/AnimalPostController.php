@@ -1,0 +1,69 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\AnimalPost;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+class AnimalPostController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        //
+        $validateData = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'cep' => 'nullable|string|max:10',
+            'category' => 'required|string|max:50',
+            'sex' => 'required|string|max:10',
+            'age' => 'nullable|string|max:10',
+            'contact' => 'nullable|string|max:50',
+            'status' => 'in:disponivel,adotado',
+        ]);
+
+        $validateData['user_id'] = Auth::id();
+        $validateData['posted_at'] = now();
+
+        $post = AnimalPost::create($validateData);
+        return response()->json([
+            'message' => 'Postagem criada com sucesso',
+            'post' => $post,
+        ]);
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        //
+    }
+}

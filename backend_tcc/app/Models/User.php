@@ -25,7 +25,6 @@ class User extends Authenticatable
         'password',
         'phone',
         // irei remover o cep e adicionar apenas no post
-        'endereco',
         'picture'
     ];
     // -YOXt!lTSm_Vn1ha
@@ -50,5 +49,10 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function animalPosts()
+    {
+        return $this->hasMany(AnimalPost::class);
     }
 }
