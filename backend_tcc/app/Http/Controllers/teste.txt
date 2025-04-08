@@ -1,0 +1,17 @@
+{
+  "title": "Gato",
+  "description": "Gato gordo sendo doado",
+  "cep": "123456",
+  "category": "gato",
+  "sex": "macho",
+  "age": "3",
+  "contact": "13435452",
+  "status": "disponivel"
+}
+
+{
+  "name": "kelvin",
+  "email": "kelvin@gmail.com",
+  "password": "12345678"
+  "phone": 1234567
+}

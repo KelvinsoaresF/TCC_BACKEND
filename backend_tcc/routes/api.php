@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnimalPostController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
@@ -27,11 +28,13 @@ Route::get('/test', function() {
 
 // rotas de autenticação
 Route::post('/register', [AuthController::class, 'register']);
+
+//rota protegida
 Route::post('/login', [AuthController::class, 'login']);
 
+Route::middleware('auth:sanctum')->group(function (){
+    Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+    Route::get('/user', [ProfileController::class, 'show'])->middleware('auth:sanctum');
+    Route::apiResource('/post', AnimalPostController::class);
+});
 
-Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
-
-// rotas de usuario
-// Route::apiResource('/user', ProfileController::class)->middleware('auth:sanctum');
-Route::get('/user', [ProfileController::class, 'show'])->middleware('auth:sanctum');

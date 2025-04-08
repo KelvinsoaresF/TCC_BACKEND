@@ -22,25 +22,37 @@ class AnimalPostController extends Controller
     public function store(Request $request)
     {
         //
-        $validateData = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'cep' => 'nullable|string|max:10',
-            'category' => 'required|string|max:50',
-            'sex' => 'required|string|max:10',
-            'age' => 'nullable|string|max:10',
-            'contact' => 'nullable|string|max:50',
-            'status' => 'in:disponivel,adotado',
-        ]);
+        try {
+            $validateData = $request->validate([
+                'title' => 'required|string|max:255',
+                'description' => 'nullable|string',
+                'cep' => 'nullable|string|max:10',
+                'category' => 'required|string|max:50',
+                'sex' => 'required|string|max:10',
+                'age' => 'nullable|string|max:10',
+                'contact' => 'nullable|string|max:50',
+                'status' => 'in:disponivel,adotado',
+            ]);
 
-        $validateData['user_id'] = Auth::id();
-        $validateData['posted_at'] = now();
+            $validateData['user_id'] = Auth::id();
+            $validateData['posted_at'] = now();
 
-        $post = AnimalPost::create($validateData);
-        return response()->json([
-            'message' => 'Postagem criada com sucesso',
-            'post' => $post,
-        ]);
+            $post = AnimalPost::create($validateData);
+            return response()->json([
+                'message' => 'Postagem criada com sucesso',
+                'post' => $post,
+                'userId' => $validateData['user_id'],
+            ]);
+
+        } catch (\Throwable $e) {
+            # code...
+            return response()->json([
+                'error' => 'Erro ao criar postagem',
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+
+
     }
 
     /**

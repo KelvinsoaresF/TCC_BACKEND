@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 
 class AnimalPost extends Model
 {
@@ -14,7 +15,9 @@ class AnimalPost extends Model
         'category',
         'cep',
         'contact',
-        'status'
+        'status',
+        'sex',
+        'posted_at',
     ];
 
     public function user()
