@@ -58,7 +58,6 @@ class AuthController extends Controller
                     'status' => 'error'
                 ]);
             }
-
             $user = User::where('email', $validateData['email'])->first();
 
             $token = $user->createToken($user->name)->plainTextToken;

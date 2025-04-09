@@ -31,10 +31,12 @@ Route::post('/register', [AuthController::class, 'register']);
 
 //rota protegida
 Route::post('/login', [AuthController::class, 'login']);
+Route::get('/post-show', [AnimalPostController::class, 'show']);
 
-Route::middleware('auth:sanctum')->group(function (){
+Route::middleware('auth:sanctum')->group(function() {
     Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
     Route::get('/user', [ProfileController::class, 'show'])->middleware('auth:sanctum');
-    Route::apiResource('/post', AnimalPostController::class);
+    // Route::apiResource('/post', AnimalPostController::class);
+    Route::post('/add-post', [AnimalPostController::class, 'store']);
 });
 

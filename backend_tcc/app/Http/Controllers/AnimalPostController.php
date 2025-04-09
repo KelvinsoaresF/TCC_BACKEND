@@ -21,7 +21,6 @@ class AnimalPostController extends Controller
      */
     public function store(Request $request)
     {
-        //
         try {
             $validateData = $request->validate([
                 'title' => 'required|string|max:255',
@@ -52,7 +51,6 @@ class AnimalPostController extends Controller
             ], 500);
         }
 
-
     }
 
     /**
@@ -60,7 +58,20 @@ class AnimalPostController extends Controller
      */
     public function show(string $id)
     {
-        //
+        try {
+            $post = AnimalPost::with('user')->findOrFail($id);
+
+            return response()->json([
+            'message' => 'post buscado com sucesso',
+            'post' => $post,
+        ]);
+        } catch (\Throwable $e) {
+            # code...
+            return response()->json([
+                'error' => 'Erro ao buscar postagem',
+                'message' => $e->getMessage(),
+            ], 500);
+        }
     }
 
     /**
