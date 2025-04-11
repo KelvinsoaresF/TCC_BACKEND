@@ -14,6 +14,13 @@ class AnimalPostController extends Controller
     public function index()
     {
         //
+        $posts = AnimalPost::with('user')->get();
+        return response()->json([
+            "message" => "posts carregados",
+            "posts" => $posts
+        ]);
+
+
     }
 
     /**
@@ -73,6 +80,7 @@ class AnimalPostController extends Controller
             ], 500);
         }
     }
+
 
     /**
      * Update the specified resource in storage.

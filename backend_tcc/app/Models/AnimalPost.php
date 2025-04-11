@@ -17,6 +17,7 @@ class AnimalPost extends Model
         'contact',
         'status',
         'sex',
+        'age',
         'posted_at',
     ];
 
