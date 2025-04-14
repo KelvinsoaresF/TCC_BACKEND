@@ -11,9 +11,18 @@ class AnimalPostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+        $posts = AnimalPost::with('user')->orderBy('posted_at')->get();
+
+        if($request->has('status')){
+            $posts->where('status', $request->status);
+        }
+
+        return response()->json([
+            "posts" => $posts,
+        ]);
     }
 
     /**
@@ -51,8 +60,6 @@ class AnimalPostController extends Controller
                 'message' => $e->getMessage(),
             ], 500);
         }
-
-
     }
 
     /**
@@ -61,6 +68,11 @@ class AnimalPostController extends Controller
     public function show(string $id)
     {
         //
+        $post = AnimalPost::with('user')->findOrFail($id);
+        return response()->json([
+            'post' => $post,
+            'userId' => $post->user_id,
+        ]);
     }
 
     /**
@@ -69,6 +81,29 @@ class AnimalPostController extends Controller
     public function update(Request $request, string $id)
     {
         //
+        $post = AnimalPost::findOrFail($id);
+        if ($post->user_id !== Auth::id()) {
+            return response()->json([
+                'error' => 'Você não tem permissão para editar este post',
+            ], 403);
+        }
+
+        $validateData = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'cep' => 'nullable|string|max:10',
+            'category' => 'required|string|max:50',
+            'sex' => 'required|string|max:10',
+            'age' => 'nullable|string|max:10',
+            'contact' => 'nullable|string|max:50',
+            'status' => 'in:disponivel,adotado',
+        ]);
+
+        $post->update($validateData);
+        return response()->json([
+            'message' => 'Postagem atualizada com sucesso',
+            'post' => $post,
+        ]);
     }
 
     /**
@@ -77,5 +112,15 @@ class AnimalPostController extends Controller
     public function destroy(string $id)
     {
         //
+        $post = AnimalPost::findOrFail($id);
+        if ($post->user_id !== Auth::id()) {
+            return response()->json([
+                'error' => 'Você não tem permissão para excluir este post',
+            ], 403);
+        }
+        $post->delete();
+        return response()->json([
+            'message' => 'Postagem excluída com sucesso',
+        ]);
     }
 }
