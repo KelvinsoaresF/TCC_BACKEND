@@ -14,15 +14,13 @@ class AnimalPostController extends Controller
     public function index(Request $request)
     {
         //
-        $posts = AnimalPost::with('user')->orderBy('posted_at')->get();
-
-        if($request->has('status')){
-            $posts->where('status', $request->status);
-        }
-
+        $posts = AnimalPost::with('user')->get();
         return response()->json([
-            "posts" => $posts,
+            "message" => "posts carregados",
+            "posts" => $posts
         ]);
+
+
     }
 
     /**
@@ -30,7 +28,6 @@ class AnimalPostController extends Controller
      */
     public function store(Request $request)
     {
-        //
         try {
             $validateData = $request->validate([
                 'title' => 'required|string|max:255',
@@ -67,13 +64,22 @@ class AnimalPostController extends Controller
      */
     public function show(string $id)
     {
-        //
-        $post = AnimalPost::with('user')->findOrFail($id);
-        return response()->json([
+        try {
+            $post = AnimalPost::with('user')->findOrFail($id);
+
+            return response()->json([
+            'message' => 'post buscado com sucesso',
             'post' => $post,
-            'userId' => $post->user_id,
         ]);
+        } catch (\Throwable $e) {
+            # code...
+            return response()->json([
+                'error' => 'Erro ao buscar postagem',
+                'message' => $e->getMessage(),
+            ], 500);
+        }
     }
+
 
     /**
      * Update the specified resource in storage.

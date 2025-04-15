@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
+
     public function show()
     {
         $user = Auth::user();
@@ -15,4 +16,6 @@ class ProfileController extends Controller
             'email' => $user->email,
         ]);
     }
+
+
 }
