@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AnimalPost;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class AnimalPostController extends Controller
 {
@@ -19,16 +20,15 @@ class AnimalPostController extends Controller
             "message" => "posts carregados",
             "posts" => $posts
         ]);
-
-
     }
-
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
         try {
+            $status = $request->input('status', 'disponivel');
+
             $validateData = $request->validate([
                 'title' => 'required|string|max:255',
                 'description' => 'nullable|string',
@@ -37,9 +37,10 @@ class AnimalPostController extends Controller
                 'sex' => 'required|string|max:10',
                 'age' => 'nullable|string|max:10',
                 'contact' => 'nullable|string|max:50',
-                'status' => 'in:disponivel,adotado',
+
             ]);
 
+            $validateData['status'] = $status;
             $validateData['user_id'] = Auth::id();
             $validateData['posted_at'] = now();
 
@@ -117,7 +118,6 @@ class AnimalPostController extends Controller
      */
     public function destroy(string $id)
     {
-        //
         $post = AnimalPost::findOrFail($id);
         if ($post->user_id !== Auth::id()) {
             return response()->json([

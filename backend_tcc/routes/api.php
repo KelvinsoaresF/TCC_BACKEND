@@ -38,7 +38,6 @@ Route::get('/posts', [AnimalPostController::class, 'index']);
 Route::middleware('auth:sanctum')->group(function() {
     Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
     Route::get('/user', [ProfileController::class, 'show'])->middleware('auth:sanctum');
-    // Route::apiResource('/post', AnimalPostController::class);
     Route::post('/add-post', [AnimalPostController::class, 'store']);
 
 });
