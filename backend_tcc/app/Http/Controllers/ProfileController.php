@@ -13,6 +13,24 @@ class ProfileController extends Controller
         return response()->json([
             'name' => $user->name,
             'email' => $user->email,
+            'phone' => $user->phone,
         ]);
+    }
+
+    public function myPosts()
+    {
+        $user = Auth::user();
+        $posts = $user->posts()->with('user')->get();
+
+        if($posts->isEmpty()) {
+            return response()->json([
+                'error' => 'Você não tem permissão para acessar esses posts',
+            ], 403);
+        } else {
+            return response()->json([
+                'posts' => $posts,
+                'userId' => $user->id,
+            ]);
+        }
     }
 }

@@ -39,6 +39,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
     Route::get('/user', [ProfileController::class, 'show'])->middleware('auth:sanctum');
     Route::post('/add-post', [AnimalPostController::class, 'store']);
+    Route::get('/my-posts', [ProfileController::class, 'myPosts'])->middleware('auth:sanctum');
 
 });
 
