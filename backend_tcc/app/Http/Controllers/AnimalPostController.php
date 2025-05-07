@@ -6,6 +6,7 @@ use App\Models\AnimalPost;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 
 class AnimalPostController extends Controller
 {
@@ -29,20 +30,60 @@ class AnimalPostController extends Controller
         try {
             $status = $request->input('status', 'disponivel');
 
-            $validateData = $request->validate([
+            $validateData = $request->validate(
+                [
                 'title' => 'required|string|max:255',
                 'description' => 'nullable|string',
                 'cep' => 'nullable|string|max:10',
+                'state' => 'nullable|string|max:255',
+                'city' => 'nullable|string|max:255',
                 'category' => 'required|string|max:50',
                 'sex' => 'required|string|max:10',
                 'age' => 'nullable|string|max:10',
                 'contact' => 'nullable|string|max:50',
+                ],
+                [
+                    'title.required' => 'O título é obrigatório.',
+                    'title.string' => 'O título deve ser um texto.',
+                    'title.max' => 'O título não pode ter mais que :max caracteres.',
 
-            ]);
+                    'description.string' => 'A descrição deve ser um texto.',
+
+                    'cep.string' => 'O CEP deve ser um texto.',
+                    'cep.max' => 'O CEP não pode ter mais que :max caracteres.',
+
+                    'state.string' => 'O estado deve ser um texto.',
+                    'state.max' => 'O estado não pode ter mais que :max caracteres.',
+
+                    'city.string' => 'A cidade deve ser um texto.',
+                    'city.max' => 'A cidade não pode ter mais que :max caracteres.',
+
+                    'category.required' => 'A categoria é obrigatória.',
+                    'category.string' => 'A categoria deve ser um texto.',
+                    'category.max' => 'A categoria não pode ter mais que :max caracteres.',
+
+                    'sex.required' => 'O sexo é obrigatório.',
+                    'sex.string' => 'O sexo deve ser um texto.',
+                    'sex.max' => 'O sexo não pode ter mais que :max caracteres.',
+
+                    'age.string' => 'A idade deve ser um texto.',
+                    'age.max' => 'A idade não pode ter mais que :max caracteres.',
+
+                    'contact.string' => 'O contato deve ser um texto.',
+                    'contact.max' => 'O contato não pode ter mais que :max caracteres.',
+                ]
+        );
+
+        if($request->hasFile('picture')) {
+            $picture = $request->file('picture')->store('pictures', 'public');
+        } else {
+            $picture = null;
+        }
 
             $validateData['status'] = $status;
             $validateData['user_id'] = Auth::id();
             $validateData['posted_at'] = now();
+            $validateData['picture'] = $picture;
 
             $post = AnimalPost::create($validateData);
             return response()->json([
@@ -50,6 +91,13 @@ class AnimalPostController extends Controller
                 'post' => $post,
                 'userId' => $validateData['user_id'],
             ]);
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Captura ERROS DE VALIDAÇÃO e retorna no formato padrão do Laravel
+            return response()->json([
+                'message' => 'The given data was invalid.',
+                'errors' => $e->errors(),
+            ], 422);
 
         } catch (\Throwable $e) {
             # code...
@@ -80,7 +128,6 @@ class AnimalPostController extends Controller
             ], 500);
         }
     }
-
 
     /**
      * Update the specified resource in storage.

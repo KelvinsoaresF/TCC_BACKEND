@@ -20,7 +20,7 @@ class ProfileController extends Controller
     public function myPosts()
     {
         $user = Auth::user();
-        $posts = $user->posts()->with('user')->get();
+        $posts = $user->animalPosts()->with('user')->get();
 
         if($posts->isEmpty()) {
             return response()->json([

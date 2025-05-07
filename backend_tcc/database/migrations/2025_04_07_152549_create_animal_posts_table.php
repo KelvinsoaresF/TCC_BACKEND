@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('title');
             $table->text('description')->nullable();
             $table->string('cep')->nullable();
+            $table->string('estado')->nullable();
+            $table->string('cidade')->nullable();
             $table->string('category');
             $table->string('sex');
             $table->string('age')->nullable();
