@@ -17,14 +17,21 @@ class AuthController extends Controller
                 'email' => 'required|email|max:255',
                 'password' => 'required|string|min:8',
                 'phone' => 'required|string',
+                'picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
+
+            if ($request->hasFile('picture')) {
+                $picture = $request->file('picture');
+            } else {
+                $picture = null;
+            }
 
             $user = User::create([
                 'name' => $validateData['name'],
                 'email' => $validateData['email'],
                 'password' => Hash::make($validateData['password']),
                 'phone' => $validateData['phone'],
-                'picture' => $validateData['picture'] ?? null,
+                'picture' => $picture,
             ]);
 
             $token = $user->createToken($user->name)->plainTextToken;
