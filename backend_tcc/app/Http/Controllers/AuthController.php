@@ -21,7 +21,7 @@ class AuthController extends Controller
             ]);
 
             if ($request->hasFile('picture')) {
-                $picture = $request->file('picture');
+                $picture = $request->file('picture')->store('profile_pictures', 'public');
             } else {
                 $picture = null;
             }

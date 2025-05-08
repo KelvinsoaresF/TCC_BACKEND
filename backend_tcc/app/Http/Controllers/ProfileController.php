@@ -14,6 +14,7 @@ class ProfileController extends Controller
             'name' => $user->name,
             'email' => $user->email,
             'phone' => $user->phone,
+            'picture' => $user->picture,
         ]);
     }
 
