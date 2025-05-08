@@ -34,8 +34,10 @@ class AnimalPostController extends Controller
                 [
                 'title' => 'required|string|max:255',
                 'description' => 'nullable|string',
-                'cep' => 'nullable|string|max:10',
+                'cep' => 'nullable|string|max:12',
                 'state' => 'nullable|string|max:255',
+                'city' => 'nullable|string|max:255',
+                'state' => 'nullable|string|max:4',
                 'city' => 'nullable|string|max:255',
                 'category' => 'required|string|max:50',
                 'sex' => 'required|string|max:10',
@@ -51,6 +53,9 @@ class AnimalPostController extends Controller
 
                     'cep.string' => 'O CEP deve ser um texto.',
                     'cep.max' => 'O CEP não pode ter mais que :max caracteres.',
+
+                    'state.string' => 'O estado deve ser um texto.',
+                    'city.max' => 'O cidade não pode ter mais que :max caracteres.',
 
                     'state.string' => 'O estado deve ser um texto.',
                     'state.max' => 'O estado não pode ter mais que :max caracteres.',
