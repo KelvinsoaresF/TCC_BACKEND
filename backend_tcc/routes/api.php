@@ -33,6 +33,7 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/show-post/{id}', [AnimalPostController::class, 'show']);
 Route::get('/posts', [AnimalPostController::class, 'index']);
+Route::get('/public-profile/{id}', [ProfileController::class, 'publicProfile']);
 
 
 Route::middleware('auth:sanctum')->group(function() {

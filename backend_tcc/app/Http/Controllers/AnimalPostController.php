@@ -137,9 +137,10 @@ class AnimalPostController extends Controller
     /**
      * Update the specified resource in storage.
      */
+
+    //  função editar post não pronta, precisa de ajustes.
     public function update(Request $request, string $id)
     {
-        //
         $post = AnimalPost::findOrFail($id);
         if ($post->user_id !== Auth::id()) {
             return response()->json([
@@ -158,7 +159,7 @@ class AnimalPostController extends Controller
             'status' => 'in:disponivel,adotado',
         ]);
 
-        $post->update($validateData);
+        // $post->update($validateData);
         return response()->json([
             'message' => 'Postagem atualizada com sucesso',
             'post' => $post,
@@ -180,5 +181,10 @@ class AnimalPostController extends Controller
         return response()->json([
             'message' => 'Postagem excluída com sucesso',
         ]);
+    }
+
+    public function savePost(string $id)
+    {
+
     }
 }
