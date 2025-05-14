@@ -34,13 +34,13 @@ class AuthController extends Controller
                 'picture' => $picture,
             ]);
 
-            $token = $user->createToken($user->name)->plainTextToken;
+            // $token = $user->createToken($user->name)->plainTextToken;
 
             return response()->json([
                 'message' => 'Usuário criado com sucesso',
                 'token_type' => 'Bearer',
                 'user' => $user,
-                'token' => $token,
+                // 'token' => $token,
             ], 201);
 
         } catch (\Exception $e) {

@@ -185,6 +185,8 @@ class AnimalPostController extends Controller
 
     public function savePost(string $id)
     {
+        // $user = Auth::user();
+        $post = AnimalPost::findOrFail($id);
 
     }
 }

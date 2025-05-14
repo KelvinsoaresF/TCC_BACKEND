@@ -30,4 +30,9 @@ class AnimalPost extends Model
     {
         return $this->belongsToMany(User::class, 'likes')->withTimestamps();
     }
+
+    public function savePost()
+    {
+        return $this->belongsToMany(User::class, 'saved_posts')->withTimestamps();
+    }
 }

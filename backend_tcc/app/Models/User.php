@@ -58,8 +58,13 @@ class User extends Authenticatable
         return $this->hasMany(AnimalPost::class);
     }
 
-    public function likesByPost()
+    public function likesByPosts()
     {
         return $this->belongsToMany(AnimalPost::class, 'likes');
+    }
+
+    public function savedPosts()
+    {
+        return $this->belongsToMany(AnimalPost::class, 'saved_posts');
     }
 }
