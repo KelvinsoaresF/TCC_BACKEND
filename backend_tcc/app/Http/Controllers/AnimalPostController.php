@@ -182,11 +182,4 @@ class AnimalPostController extends Controller
             'message' => 'Postagem excluída com sucesso',
         ]);
     }
-
-    public function savePost(string $id)
-    {
-        // $user = Auth::user();
-        $post = AnimalPost::findOrFail($id);
-
-    }
 }
