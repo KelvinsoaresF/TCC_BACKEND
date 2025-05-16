@@ -44,5 +44,7 @@ Route::middleware('auth:sanctum')->group(function() {
 
     // salvar post
     Route::post('/post/{id}/save', [InteractionPostController::class, 'savePost'])->middleware('auth:sanctum');
+    Route::get('/saved-posts', [InteractionPostController::class, 'indexSaves'])->middleware('auth:sanctum');
+    Route::delete('/remove-save/{id}', [InteractionPostController::class, 'removeSave'])->middleware('auth:sanctum');
 });
 

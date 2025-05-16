@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('saved_posts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('post_id')->constrained()->onDelete('cascade');
+            $table->foreignId('post_id')->references('id')->on('animal_posts')->onDelete('cascade');
             $table->timestamps();
 
             $table->unique(['user_id', 'post_id']);
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('saved_posts_');
+        Schema::dropIfExists('saved_posts');
     }
 };

@@ -65,6 +65,6 @@ class User extends Authenticatable
 
     public function savedPosts()
     {
-        return $this->belongsToMany(AnimalPost::class, 'saved_posts');
+        return $this->belongsToMany(AnimalPost::class, 'saved_posts', 'user_id', 'post_id');
     }
 }

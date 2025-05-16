@@ -40,5 +40,52 @@ class InteractionPostController extends Controller
         }
     }
 
+    public function removeSave(string $postId)
+    {
+        $user = Auth::user();
 
+        try {
+
+            $post = AnimalPost::findOrFail($postId);
+
+            $user->savedPosts()->detach($postId);
+
+            return response()->json([
+                'message' => 'post removido dos salvos',
+                'post' => $post
+            ]);
+
+        } catch (\Throwable $e) {
+            return response()->json([
+                'error' => 'Erro ao remover postagem',
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+
+    }
+
+    public function indexSaves()
+    {
+        $user = Auth::user();
+        try {
+            $posts = $user->savedPosts()->with('user')->latest()->get();
+
+            if(!$posts){
+                return response()->json([
+                    'message' => 'Nenhum post salvo'
+                ]);
+            }
+
+            return response()->json([
+                'message' => 'Posts salvos buscados com sucesso',
+                'savedposts' => $posts
+            ]);
+
+        } catch (\Throwable $e) {
+            return response()->json([
+                'error' => 'Erro ao salvar postagem',
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    }
 }
