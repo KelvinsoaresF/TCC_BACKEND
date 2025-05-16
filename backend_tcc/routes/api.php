@@ -42,6 +42,8 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('/my-posts', [ProfileController::class, 'myPosts'])->middleware('auth:sanctum');
     Route::put('/edit-profile', [ProfileController::class, 'editProfile'])->middleware('auth:sanctum');
 
+    Route::put('/edit-post', [AnimalPostController::class, 'update'])->middleware('auth:sanctum');
+
     // salvar post
     Route::post('/post/{id}/save', [InteractionPostController::class, 'savePost'])->middleware('auth:sanctum');
     Route::get('/saved-posts', [InteractionPostController::class, 'indexSaves'])->middleware('auth:sanctum');

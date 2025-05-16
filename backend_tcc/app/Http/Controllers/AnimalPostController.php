@@ -32,17 +32,17 @@ class AnimalPostController extends Controller
 
             $validateData = $request->validate(
                 [
-                'title' => 'required|string|max:255',
-                'description' => 'nullable|string',
-                'cep' => 'nullable|string|max:12',
-                'state' => 'nullable|string|max:255',
-                'city' => 'nullable|string|max:255',
-                'state' => 'nullable|string|max:4',
-                'city' => 'nullable|string|max:255',
-                'category' => 'required|string|max:50',
-                'sex' => 'required|string|max:10',
-                'age' => 'nullable|string|max:10',
-                'contact' => 'nullable|string|max:50',
+                    'title' => 'required|string|max:255',
+                    'description' => 'nullable|string',
+                    'cep' => 'nullable|string|max:12',
+                    'state' => 'nullable|string|max:255',
+                    'city' => 'nullable|string|max:255',
+                    'state' => 'nullable|string|max:4',
+                    'city' => 'nullable|string|max:255',
+                    'category' => 'required|string|max:50',
+                    'sex' => 'required|string|max:10',
+                    'age' => 'nullable|string|max:10',
+                    'contact' => 'nullable|string|max:50',
                 ],
                 [
                     'title.required' => 'O título é obrigatório.',
@@ -77,13 +77,13 @@ class AnimalPostController extends Controller
                     'contact.string' => 'O contato deve ser um texto.',
                     'contact.max' => 'O contato não pode ter mais que :max caracteres.',
                 ]
-        );
+            );
 
-        if($request->hasFile('picture')) {
-            $picture = $request->file('picture')->store('pictures', 'public');
-        } else {
-            $picture = null;
-        }
+            if ($request->hasFile('picture')) {
+                $picture = $request->file('picture')->store('pictures', 'public');
+            } else {
+                $picture = null;
+            }
 
             $validateData['status'] = $status;
             $validateData['user_id'] = Auth::id();
@@ -96,14 +96,12 @@ class AnimalPostController extends Controller
                 'post' => $post,
                 'userId' => $validateData['user_id'],
             ]);
-
         } catch (\Illuminate\Validation\ValidationException $e) {
             // Captura ERROS DE VALIDAÇÃO e retorna no formato padrão do Laravel
             return response()->json([
                 'message' => 'The given data was invalid.',
                 'errors' => $e->errors(),
             ], 422);
-
         } catch (\Throwable $e) {
             # code...
             return response()->json([
@@ -122,9 +120,9 @@ class AnimalPostController extends Controller
             $post = AnimalPost::with('user')->findOrFail($id);
 
             return response()->json([
-            'message' => 'post buscado com sucesso',
-            'post' => $post,
-        ]);
+                'message' => 'post buscado com sucesso',
+                'post' => $post,
+            ]);
         } catch (\Throwable $e) {
             # code...
             return response()->json([
@@ -149,22 +147,33 @@ class AnimalPostController extends Controller
         }
 
         $validateData = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'cep' => 'nullable|string|max:10',
-            'category' => 'required|string|max:50',
-            'sex' => 'required|string|max:10',
-            'age' => 'nullable|string|max:10',
-            'contact' => 'nullable|string|max:50',
-            'status' => 'in:disponivel,adotado',
+            'title' => 'sometimes|string|max:255',
+            'description' => 'sometimes|nullable|string',
+            'cep' => 'sometimes|nullable|string|max:10',
+            'category' => 'sometimes|string|max:50',
+            'sex' => 'sometimes|string|max:10',
+            'age' => 'sometimes|nullable|string|max:10',
+            'contact' => 'sometimes|nullable|string|max:50',
+            'status' => 'sometimes|in:disponivel,adotado',
+            'city' => 'sometimes|nullable|string|max:100',
+            'state' => 'sometimes|nullable|string|max:100',
         ]);
 
-        // $post->update($validateData);
-        return response()->json([
-            'message' => 'Postagem atualizada com sucesso',
-            'post' => $post,
-        ]);
+        try {
+            $post->update($validateData);
+            return response()->json([
+                'message' => 'Postagem atualizada com sucesso',
+                'post' => $post,
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'error' => 'Erro ao editar perfil',
+                'message' => $e->getMessage(),
+            ], 500);
+        }
     }
+
+    // $post->update($validateData
 
     /**
      * Remove the specified resource from storage.
