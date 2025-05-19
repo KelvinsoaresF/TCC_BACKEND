@@ -37,8 +37,7 @@ class AnimalPostController extends Controller
                     'cep' => 'nullable|string|max:12',
                     'state' => 'nullable|string|max:255',
                     'city' => 'nullable|string|max:255',
-                    'state' => 'nullable|string|max:4',
-                    'city' => 'nullable|string|max:255',
+
                     'category' => 'required|string|max:50',
                     'sex' => 'required|string|max:10',
                     'age' => 'nullable|string|max:10',
