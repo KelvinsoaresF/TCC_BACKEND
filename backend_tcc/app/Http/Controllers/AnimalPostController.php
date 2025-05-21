@@ -35,6 +35,7 @@ class AnimalPostController extends Controller
                     'title' => 'required|string|max:255',
                     'description' => 'nullable|string',
                     'cep' => 'nullable|string|max:12',
+
                     'state' => 'nullable|string|max:255',
                     'city' => 'nullable|string|max:255',
 
@@ -58,9 +59,11 @@ class AnimalPostController extends Controller
 
                     'state.string' => 'O estado deve ser um texto.',
                     'state.max' => 'O estado não pode ter mais que :max caracteres.',
+                    'state.required' => 'O estado é obrigatório.',
 
                     'city.string' => 'A cidade deve ser um texto.',
                     'city.max' => 'A cidade não pode ter mais que :max caracteres.',
+                    'city.required' => 'A cidade é obrigatória.',
 
                     'category.required' => 'A categoria é obrigatória.',
                     'category.string' => 'A categoria deve ser um texto.',

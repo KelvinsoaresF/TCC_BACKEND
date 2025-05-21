@@ -14,6 +14,8 @@ class AnimalPost extends Model
         'description',
         'category',
         'cep',
+        'state',
+        'city',
         'contact',
         'status',
         'sex',
