@@ -32,6 +32,7 @@ class AnimalPostController extends Controller
 
             $validateData = $request->validate(
                 [
+
                     'title' => 'required|string|max:255',
                     'description' => 'nullable|string',
                     'cep' => 'nullable|string|max:12',
