@@ -26,7 +26,6 @@ class User extends Authenticatable
         'email',
         'password',
         'phone',
-        // irei remover o cep e adicionar apenas no post
         'picture'
     ];
     // -YOXt!lTSm_Vn1ha
@@ -58,7 +57,7 @@ class User extends Authenticatable
         return $this->hasMany(AnimalPost::class);
     }
 
-    public function likesByPosts()
+    public function likedPosts()
     {
         return $this->belongsToMany(AnimalPost::class, 'likes');
     }

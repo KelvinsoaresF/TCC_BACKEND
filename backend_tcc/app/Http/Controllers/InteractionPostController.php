@@ -88,4 +88,26 @@ class InteractionPostController extends Controller
             ], 500);
         }
     }
+
+    public function postLike(string $id)
+    {
+        $user = Auth::user();
+        $post = AnimalPost::findOrFail($id);
+
+        if($post->likes->contains('id', $user->id)) {
+            $user->likedPosts()->detach($post->id);
+            return response()->json([
+                'message' => 'Post descurtido com sucesso',
+                'post' => $post,
+                'likes_count' => $post->likes()->count()
+            ]);
+        } else {
+            $user->likedPosts()->attach($post->id);
+            return response()->json([
+                'message' => 'Post curtido com sucesso',
+                'post' => $post,
+                'likes_count' => $post->likes()->count()
+            ]);
+        }
+    }
 }
