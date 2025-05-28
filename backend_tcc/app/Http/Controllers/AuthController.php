@@ -5,6 +5,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
+
 use PhpParser\Node\Stmt\TryCatch;
 
 class AuthController extends Controller
@@ -12,13 +14,27 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         try {
-            $validateData = $request->validate([
+            $validateData = $request->validate(
+                [
                 'name' => 'required|string|max:255',
                 'email' => 'required|email|max:255',
                 'password' => 'required|string|min:8',
                 'phone' => 'required|string',
                 'picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            ]);
+                ],
+                [
+                    'name.required' => 'O nome é obrigatório.',
+                    'name.string' => 'O nome deve ser um texto.',
+
+                    'email.required' => 'O email é obrigatório.',
+                    'email.email' => 'O email deve ser um endereço de email válido.',
+
+                    'password.required' => 'A senha é obrigatória.',
+                    'password.min' => 'A senha deve ter pelo menos :min caracteres.',
+
+
+                ]
+        );
 
             if ($request->hasFile('picture')) {
                 $picture = $request->file('picture')->store('profile_pictures', 'public');
@@ -37,16 +53,21 @@ class AuthController extends Controller
             // $token = $user->createToken($user->name)->plainTextToken;
 
             return response()->json([
-                'message' => 'Usuário criado com sucesso',
+                'message' => 'Usuário criado com sucesso!',
                 'token_type' => 'Bearer',
                 'user' => $user,
                 // 'token' => $token,
             ], 201);
 
+        } catch (ValidationException $e) {
+            return response()->json([
+                'message' => 'Dados invalidos',
+                'errors' => $e->errors()
+            ], 422); // servidor recebe a requisição, mas os dados estão invalidos
         } catch (\Exception $e) {
             return response()->json([
-                'error' => 'Erro ao registrar usuário',
-                'message' => $e->getMessage(),
+                'message' => 'Erro ao registrar usuário :(',
+                'info' => $e->getMessage(),
             ], 500);
         }
     }
@@ -69,7 +90,7 @@ class AuthController extends Controller
 
             $token = $user->createToken($user->name)->plainTextToken;
             return response()->json([
-                'message' => 'Login realizado com sucesso',
+                'message' => 'Login realizado com sucesso!',
                 'token_type' => 'Bearer',
                 'user' => $user,
                 'token' => $token,
@@ -78,7 +99,7 @@ class AuthController extends Controller
 
         } catch (\Exception $e) {
             return response()->json([
-                'error' => 'Erro ao realizar login',
+                'error' => 'Erro ao realizar login, tente novamente mais tarde.',
                 'message' => $e->getMessage(),
             ], 500);
         }

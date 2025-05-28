@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('cep')->nullable();
             $table->string('state')->nullable();
             $table->string('city')->nullable();
+            $table->string('neighborhood')->nullable();
             $table->string('category');
             $table->string('sex');
             $table->string('age')->nullable();

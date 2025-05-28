@@ -99,7 +99,7 @@ class AnimalPostController extends Controller
                 'post' => $post,
                 'userId' => $validateData['user_id'],
             ]);
-        } catch (\ValidationException $e) {
+        } catch (ValidationException $e) {
             // Captura ERROS DE VALIDAÇÃO e retorna no formato padrão do Laravel
             return response()->json([
                 'message' => 'The given data was invalid.',
