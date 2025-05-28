@@ -54,14 +54,12 @@ class InteractionPostController extends Controller
                 'message' => 'post removido dos salvos',
                 'post' => $post
             ]);
-
         } catch (\Throwable $e) {
             return response()->json([
                 'error' => 'Erro ao remover postagem',
                 'message' => $e->getMessage(),
             ], 500);
         }
-
     }
 
     public function indexSaves()
@@ -70,7 +68,7 @@ class InteractionPostController extends Controller
         try {
             $posts = $user->savedPosts()->with('user')->latest()->get();
 
-            if(!$posts){
+            if (!$posts) {
                 return response()->json([
                     'message' => 'Nenhum post salvo'
                 ]);
@@ -80,7 +78,6 @@ class InteractionPostController extends Controller
                 'message' => 'Posts salvos buscados com sucesso',
                 'savedposts' => $posts
             ]);
-
         } catch (\Throwable $e) {
             return response()->json([
                 'error' => 'Erro ao salvar postagem',
@@ -94,20 +91,55 @@ class InteractionPostController extends Controller
         $user = Auth::user();
         $post = AnimalPost::findOrFail($id);
 
-        if($post->likes->contains('id', $user->id)) {
-            $user->likedPosts()->detach($post->id);
+        try {
+            if ($post->likes->contains($user->id)) {
+                $user->likedPosts()->detach($post->id);
+                return response()->json([
+                    'message' => 'Post descurtido com sucesso',
+                    'post' => $post,
+                    'likes_count' => $post->likes()->count()
+                ]);
+            } else {
+                $user->likedPosts()->attach($post->id);
+                return response()->json([
+                    'message' => 'Post curtido com sucesso',
+                    'post' => $post,
+                    'likes_count' => $post->likes()->count()
+                ]);
+            }
+        } catch (\Throwable $e) {
             return response()->json([
-                'message' => 'Post descurtido com sucesso',
-                'post' => $post,
-                'likes_count' => $post->likes()->count()
-            ]);
-        } else {
-            $user->likedPosts()->attach($post->id);
+                'error' => 'Erro ao curtir postagem',
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function getLikes(string $id)
+    {
+        try {
+            $post = AnimalPost::findOrFail($id);
+
+            $likes = $post->likes()->get();
+
+            if ($likes->isEmpty()) {
+                return response()->json([
+                    'message' => 'Ninguem curtiu este post ainda',
+                    'likes_count' => 0,
+                ]);
+            }
+
             return response()->json([
-                'message' => 'Post curtido com sucesso',
-                'post' => $post,
-                'likes_count' => $post->likes()->count()
+                'message' => 'Curtidas buscadas com sucesso',
+                'likes_count' => $post->likes()->count(),
+                'user_name' => $likes->pluck('name')
             ]);
+
+        } catch (\Throwable $e) {
+            return response()->json([
+                'error' => 'Erro ao curtir postagem',
+                'message' => $e->getMessage(),
+            ], 500);
         }
     }
 }

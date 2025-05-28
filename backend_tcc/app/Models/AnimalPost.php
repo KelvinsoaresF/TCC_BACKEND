@@ -35,6 +35,6 @@ class AnimalPost extends Model
 
     public function savedByPost()
     {
-        return $this->belongsToMany(User::class, 'saved_posts', 'post_id', 'user_id')->withTimestamps();
+        return $this->belongsToMany(User::class, 'saved_posts')->withTimestamps();
     }
 }
