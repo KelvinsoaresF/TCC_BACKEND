@@ -95,14 +95,14 @@ class InteractionPostController extends Controller
             if ($post->likes->contains($user->id)) {
                 $user->likedPosts()->detach($post->id);
                 return response()->json([
-                    'message' => 'Post descurtido com sucesso',
+                    'message' => 'Post descurtido com sucesso!',
                     'post' => $post,
                     'likes_count' => $post->likes()->count()
                 ]);
             } else {
                 $user->likedPosts()->attach($post->id);
                 return response()->json([
-                    'message' => 'Post curtido com sucesso',
+                    'message' => 'Post curtido com sucesso!',
                     'post' => $post,
                     'likes_count' => $post->likes()->count()
                 ]);
@@ -118,7 +118,10 @@ class InteractionPostController extends Controller
     public function getLikes(string $id)
     {
         try {
+            $user = Auth::user();
             $post = AnimalPost::findOrFail($id);
+
+            $liked = $post->likes()->where('user_id', $user->id)->exists();
 
             $likes = $post->likes()->get();
 
@@ -131,8 +134,10 @@ class InteractionPostController extends Controller
 
             return response()->json([
                 'message' => 'Curtidas buscadas com sucesso',
+                'post' => $post,
                 'likes_count' => $post->likes()->count(),
-                'user_name' => $likes->pluck('name')
+                'user_name' => $likes->pluck('name'),
+                'liked' => $liked,
             ]);
 
         } catch (\Throwable $e) {
@@ -142,4 +147,5 @@ class InteractionPostController extends Controller
             ], 500);
         }
     }
+
 }

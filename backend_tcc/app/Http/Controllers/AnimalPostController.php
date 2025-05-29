@@ -120,11 +120,14 @@ class AnimalPostController extends Controller
     public function show(string $id)
     {
         try {
+            $user = Auth::user();
             $post = AnimalPost::with('user')->findOrFail($id);
+            $likes = $post->likes()->get();
 
             return response()->json([
                 'message' => 'post buscado com sucesso',
                 'post' => $post,
+                // 'liked' => $likes->contains('id', $user->id)
             ]);
         } catch (\Throwable $e) {
             # code...

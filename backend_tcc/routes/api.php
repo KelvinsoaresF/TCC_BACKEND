@@ -35,5 +35,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::delete('/remove-save/{id}', [InteractionPostController::class, 'removeSave'])->middleware('auth:sanctum');
 
     Route::post('/like-post/{id}', [InteractionPostController::class, 'postLike'])->middleware('auth:sanctum');
+
+    Route::get('/get-likes-post/{id}', [InteractionPostController::class, 'getLikes'])->middleware('auth:sanctum');
 });
 

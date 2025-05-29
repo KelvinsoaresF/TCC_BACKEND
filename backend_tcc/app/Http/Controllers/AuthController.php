@@ -16,7 +16,7 @@ class AuthController extends Controller
         try {
             $validateData = $request->validate(
                 [
-                'name' => 'required|string|max:255',
+                'name' => 'required|string|max:255|min:3',
                 'email' => 'required|email|max:255',
                 'password' => 'required|string|min:8',
                 'phone' => 'required|string',
@@ -25,6 +25,7 @@ class AuthController extends Controller
                 [
                     'name.required' => 'O nome é obrigatório.',
                     'name.string' => 'O nome deve ser um texto.',
+                    'name.min' => 'O nome deve ter pelo menos :min caracteres.',
 
                     'email.required' => 'O email é obrigatório.',
                     'email.email' => 'O email deve ser um endereço de email válido.',
@@ -32,6 +33,7 @@ class AuthController extends Controller
                     'password.required' => 'A senha é obrigatória.',
                     'password.min' => 'A senha deve ter pelo menos :min caracteres.',
 
+                    'phone.required' => 'O telefone é obrigatório.',
 
                 ]
         );
