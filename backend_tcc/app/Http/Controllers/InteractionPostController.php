@@ -93,7 +93,14 @@ class InteractionPostController extends Controller
 
         try {
             if ($post->likes->contains($user->id)) {
+                // remove post se ja curtido
                 $user->likedPosts()->detach($post->id);
+                // remove junto a noficação
+                $notification = $user->notifications()
+                    ->where('animal_post_id', $post->id)
+                    ->where('user_id', $user->id)
+                    ->delete();
+
                 return response()->json([
                     'message' => 'Post descurtido com sucesso!',
                     'post' => $post,
@@ -101,11 +108,21 @@ class InteractionPostController extends Controller
                 ]);
             } else {
                 $user->likedPosts()->attach($post->id);
+
+                $notification = $user->notifications()->create([
+                    'animal_post_id' => $post->id,
+                    'user_id' => $user->id, // quem curitu
+                    'autor_id' => $post->user->id, // dono do post
+                    'type' => 'like' // tipo de notificação
+                ]);
+
                 return response()->json([
                     'message' => 'Post curtido com sucesso!',
                     'post' => $post,
-                    'likes_count' => $post->likes()->count()
+                    'notification' => $notification,
+                    // 'likes_count' => $post->likes()->count()
                 ]);
+
             }
         } catch (\Throwable $e) {
             return response()->json([

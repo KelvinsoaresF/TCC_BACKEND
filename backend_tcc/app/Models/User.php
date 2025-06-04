@@ -52,6 +52,7 @@ class User extends Authenticatable
         ];
     }
 
+    //post criado pelo usuario
     public function animalPosts()
     {
         return $this->hasMany(AnimalPost::class);
@@ -64,6 +65,13 @@ class User extends Authenticatable
 
     public function savedPosts()
     {
-        return $this->belongsToMany(AnimalPost::class, 'saved_posts')->withTimestamps();
+        return $this->belongsToMany(AnimalPost::class, 'saved_posts')->withTimestamps(); //user_id, animal_post_id
+    }
+
+
+    //notifcação criado pelo usuario
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class, 'user_id');
     }
 }

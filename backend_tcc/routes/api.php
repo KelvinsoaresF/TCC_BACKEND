@@ -1,4 +1,6 @@
 <?php
+
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\AnimalPostController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\InteractionPostController;
@@ -37,5 +39,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::post('/like-post/{id}', [InteractionPostController::class, 'postLike'])->middleware('auth:sanctum');
 
     Route::get('/get-likes-post/{id}', [InteractionPostController::class, 'getLikes'])->middleware('auth:sanctum');
+
+    Route::get('/notifications', [NotificationController::class, 'index'])->middleware('auth:sanctum');
 });
 

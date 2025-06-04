@@ -23,6 +23,7 @@ class AnimalPost extends Model
         'posted_at',
     ];
 
+    //relação do post com usuario
     public function user()
     {
         return $this->belongsTo(User::class);

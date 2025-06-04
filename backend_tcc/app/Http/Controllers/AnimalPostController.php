@@ -32,8 +32,8 @@ class AnimalPostController extends Controller
 
             $validateData = $request->validate(
                 [
-
                     'title' => 'required|string|max:255',
+                    'picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
                     'description' => 'nullable|string',
                     'cep' => 'nullable|string|max:12',
 
@@ -82,16 +82,20 @@ class AnimalPostController extends Controller
                 ]
             );
 
+            $pictures_path = [];
             if ($request->hasFile('picture')) {
-                $picture = $request->file('picture')->store('pictures', 'public');
+                foreach ($request->file('picture') as $file) {
+                    $path = $file->store('posts_pictures', 'public');
+                    $pictures_path[] = $path;
+                }
             } else {
-                $picture = null;
+                $pictures_path[] = null;
             }
 
             $validateData['status'] = $status;
             $validateData['user_id'] = Auth::id();
             $validateData['posted_at'] = now();
-            $validateData['picture'] = $picture;
+            $validateData['picture'] = $pictures_path;
 
             $post = AnimalPost::create($validateData);
             return response()->json([
