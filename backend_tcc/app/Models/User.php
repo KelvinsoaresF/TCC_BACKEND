@@ -68,10 +68,21 @@ class User extends Authenticatable
         return $this->belongsToMany(AnimalPost::class, 'saved_posts')->withTimestamps(); //user_id, animal_post_id
     }
 
-
     //notifcação criado pelo usuario
     public function notifications()
     {
         return $this->hasMany(Notification::class, 'user_id');
+    }
+
+    // contatos enviados
+    public function sendContact()
+    {
+        return $this->hasMany(Contact::class, 'sender_id');
+    }
+
+    //contatos recebidos
+    public function receiveContact()
+    {
+        return $this->hasMany(Contact::class, 'receiver_id');
     }
 }

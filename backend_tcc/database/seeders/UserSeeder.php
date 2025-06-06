@@ -21,12 +21,12 @@ class UserSeeder extends Seeder
             'phone' => '19 93456-8978',
 
         ],
-        // [
-        //     'name' => 'user2',
-        //     'email' => 'user2@example.com',
-        //     'password' => Hash::make('password123'),
-        //     'phone' => '123462980462935',
-        // ]
+        [
+            'name' => 'user2',
+            'email' => 'user2@example.com',
+            'password' => Hash::make('password123'),
+            'phone' => '123462980462935',
+        ]
         );
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AnimalPost;
+use App\Models\Contact;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -43,7 +44,7 @@ class AnimalPostController extends Controller
                     'category' => 'required|string|max:50',
                     'sex' => 'required|string|max:10',
                     'age' => 'nullable|string|max:10',
-                    'contact' => 'nullable|string|max:50',
+                    // 'contact' => 'nullable|string|max:50',
                 ],
                 [
                     'title.required' => 'O título é obrigatório.',
@@ -163,7 +164,7 @@ class AnimalPostController extends Controller
             'category' => 'sometimes|string|max:50',
             'sex' => 'sometimes|string|max:10',
             'age' => 'sometimes|nullable|string|max:10',
-            'contact' => 'sometimes|nullable|string|max:50',
+            // 'contact' => 'sometimes|nullable|string|max:50',
             'status' => 'sometimes|in:disponivel,adotado',
             'city' => 'sometimes|nullable|string|max:100',
             'state' => 'sometimes|nullable|string|max:100',
@@ -200,5 +201,39 @@ class AnimalPostController extends Controller
         return response()->json([
             'message' => 'Postagem excluída com sucesso',
         ]);
+    }
+
+    public function contact(Request $request, $postId)
+    {
+        $user = Auth::user()->id; //quem envia o ctt
+        $post = AnimalPost::findOrFail($postId); //post a entrar em ctt
+        $sender = $post->user_id; //destinario do ctt
+
+        if($sender === $user) {
+            return response()->json([
+                'error' => 'Você não pode entrar em contato com você mesmo.'
+            ]);
+        }
+
+        try {
+            $validateData = $request->validate(
+                [
+                    'message' => 'required|string|max:500',
+                ],
+                [
+                    'messge.required' => 'A mensagem é obrigatória.',
+                ]
+                );
+
+                $message = $validateData['message'];
+
+                $contact = Contact::create([
+                    ''
+                ]);
+
+
+        } catch (\Throwable $e) {
+
+        }
     }
 }
